@@ -1,0 +1,54 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int N, V, total = 0, resto = 0;
+    bool algmvenceu = false;
+    cin >> N;
+    float J[N][2];
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < 2; j++) {
+            cin >> J[i][j];
+        }
+    }
+
+    cin >> V;
+
+    for (int i = 0; i < N; i++) {
+        total += J[i][0];
+        resto = total;
+    }
+
+    cout << "Total: R$ " << total << endl;
+
+    for (int i = 0; i < N; i++) {
+        if (J[i][1] == V) {
+            algmvenceu = true;
+        }
+    }
+
+    if (algmvenceu) {
+        for (int i = 0; i < N; i++) {
+            if (J[i][1] == V) {
+                float ganho = (J[i][0]*0.9) + (J[i][0]/(resto))*total;
+                cout << resto << endl << J[i][0] << "/" << (resto) << " * " << total << " = " << ganho;
+                cout << "Apostador " << i + 1 << ": R$" << floor(ganho) << endl;
+                resto -= floor(ganho);
+            }
+            else if (J[i][1] != V) {
+                float perda = (J[i][0]*0.9);
+                resto -= floor(perda);
+            }
+        }
+    }
+    else if (!algmvenceu) {
+        for (int i = 0; i < N; i++) {
+            float perda = (J[i][0]*0.9);
+            cout << "Apostador " << i + 1 << ": R$" << floor(perda) << endl;
+            resto -= floor(perda);
+        }
+    }
+    cout << "Bebidas e petiscos: R$ " << resto;
+}
